@@ -1,0 +1,16 @@
+LICENSE
+README.md
+pyproject.toml
+setup.cfg
+setup.py
+src/friendly_matrix/__init__.py
+src/friendly_matrix/compute_matrix.py
+src/friendly_matrix/constants.py
+src/friendly_matrix/formatting.py
+src/friendly_matrix/friendly_matrix.py
+src/friendly_matrix/methods.py
+src/friendly_matrix/operations.py
+src/numpy_string_indexed.egg-info/PKG-INFO
+src/numpy_string_indexed.egg-info/SOURCES.txt
+src/numpy_string_indexed.egg-info/dependency_links.txt
+src/numpy_string_indexed.egg-info/top_level.txt
