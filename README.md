@@ -3,8 +3,8 @@ NumPy String-Indexed
 
 <div class="aside">
 	<p align="center">
-		<a href="https://pypi.org/project/urllib3"><img alt="PyPI Version" src="https://img.shields.io/pypi/v/numpy-string-indexed.svg?maxAge=86400" /></a>
-		<a href="https://pypi.org/project/urllib3"><img alt="Python Versions" src="https://img.shields.io/pypi/pyversions/numpy-string-indexed.svg?maxAge=86400" /></a>
+		<a href="https://pypi.org/project/numpy-string-indexed/"><img alt="PyPI Version" src="https://img.shields.io/pypi/v/numpy-string-indexed.svg?maxAge=86400" /></a>
+		<a href="https://pypi.org/project/numpy-string-indexed/"><img alt="Python Versions" src="https://img.shields.io/pypi/pyversions/numpy-string-indexed.svg?maxAge=86400" /></a>
 	</p>
 </div>
 
