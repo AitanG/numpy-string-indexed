@@ -1,6 +1,13 @@
 NumPy String-Indexed
 ===
 
+<div class="aside">
+	<p align="center">
+		<a href="https://pypi.org/project/urllib3"><img alt="PyPI Version" src="https://img.shields.io/pypi/v/numpy-string-indexed.svg?maxAge=86400" /></a>
+		<a href="https://pypi.org/project/urllib3"><img alt="Python Versions" src="https://img.shields.io/pypi/pyversions/numpy-string-indexed.svg?maxAge=86400" /></a>
+	</p>
+</div>
+
 NumPy String-Indexed is a NumPy extension that allows arrays to be indexed using descriptive string labels, rather than conventional zero-indexing. When a friendly matrix object is initialized, labels are assigned to each array index and each dimension, and they stick to the array after NumPy-style operations such as transposing, concatenating, and aggregating. This prevents Python programmers from having to keep track mentally of what each axis and each index represents, instead making each reference to the array in code naturally self-documenting.
 
 NumPy String-Indexed is especially useful for applications like machine learning, scientific computing, and data science, where there is heavy use of multidimensional arrays.
