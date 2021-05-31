@@ -5,7 +5,7 @@ NumPy String-Indexed is a NumPy extension that allows arrays to be indexed using
 
 NumPy String-Indexed is especially useful for applications like machine learning, scientific computing, and data science, where there is heavy use of multidimensional arrays.
 
-The friendly matrix object is implemented as a lightweight wrapper around a NumPy ndarray. It's easy to add to a new or existing project to make it easier to maintain code, and has a negligible memory and performance overhead compared to the size of array (![equation](http://www.sciweavers.org/tex2img.php?eq=O%28x+%2B+y+%2B+z%29+%3C+O%28x+%5Ctimes+y+%5Ctimes+z%29&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=)).
+The friendly matrix object is implemented as a lightweight wrapper around a NumPy `ndarray`. It's easy to add to a new or existing project to make it easier to maintain code, and has a negligible memory and performance overhead compared to the size of array (*O(x + y + z)* vs. *O(xyz)*).
 
 
 ## Basic functionality
@@ -27,7 +27,7 @@ image = fm.ndarray(
 	color_channel=['R', 'G', 'B'])
 ```
 
-The matrix can then be sliced this way:
+The matrix can then be sliced like this:
 
 ```python
 # friendly matrix with shape (100, 100)
@@ -46,7 +46,7 @@ br_channel_left_half = image(
 
 ## Matrix operations
 
-Friendly matrix objects can be operated on just like NumPy ndarrays with minimal overhead. The package contains separate implementations of most of the relevant NumPy ndarray operations, taking advantage of labels. For example:
+Friendly matrix objects can be operated on just like NumPy `ndarray`s with minimal overhead. The package contains separate implementations of most of the relevant NumPy `ndarray` operations, taking advantage of labels. For example:
 
 ```python
 side_by_side = fm.concatenate((image1, image2), axis='left_to_right')
@@ -58,7 +58,7 @@ An optimized alternative is to perform label-less operations, by adding `"_A"` (
 side_by_side_arr = fm.concatenate_A((image1, image2), axis='left_to_right')
 ```
 
-If it becomes critical to optimize within a particular scope, it's recommended to shed labels before operating:
+If it becomes important to optimize within a particular scope, it's recommended to shed labels before operating:
 
 ```python
 for image in huge_list:
@@ -134,4 +134,4 @@ Example output:
 
 ## Documentation
 
-Complete documentation is forthcoming.
+Full documentation coming soon!
