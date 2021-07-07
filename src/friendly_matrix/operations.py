@@ -40,7 +40,7 @@ Joining arrays
 
 def concatenate_A(friendlies, axis=0):
     '''
-    Same as concatenate(), except returns only the array.
+    Same as `concatenate()`, except returns only the array.
     '''
     dim_index = friendlies[0]._to_dim_index(axis)
     arrays = tuple(friendly.array for friendly in friendlies)
@@ -49,13 +49,13 @@ def concatenate_A(friendlies, axis=0):
 
 def concatenate(friendlies, axis=0):
     '''
-    Concatenates the provided fm.ndarrays along the provided axis.
+    Concatenates the provided `friendly_matrix.ndarray`s along the provided axis.
 
     Params:
-        friendlies: the fm.ndarray to concatenate
-        axis:       the axis to concatenate along
+        `friendlies`: the `friendly_matrix.ndarray` to concatenate
+        `axis`:       the axis to concatenate along
 
-    Returns: fm.ndarray
+    Returns: `friendly_matrix.ndarray`
     '''
     dim_index = friendlies[0]._to_dim_index(axis)
     arrays = tuple(friendly.array for friendly in friendlies)
@@ -83,7 +83,7 @@ def concatenate(friendlies, axis=0):
 
 def stack_A(friendlies, axis_name=None, axis_array=None, axis=None):
     '''
-    Same as stack(), except returns only the array.
+    Same as `stack()`, except returns only the array.
     '''
     if axis is None:
         if axis_name is not None:
@@ -96,15 +96,15 @@ def stack_A(friendlies, axis_name=None, axis_array=None, axis=None):
 
 def stack(friendlies, axis_name, axis_array, axis=0):
     '''
-    Stacks the provided fm.ndarrays along a new axis.
+    Stacks the provided `friendly_matrix.ndarray`s along a new axis.
 
     Params:
-        friendlies: the fm.ndarrays to concatenate
-        axis_name:  the name of the newly created axis
-        axis_array: the labels for the newly created axis
-        axis:       the location of the new axis
+        `friendlies`: the `friendly_matrix.ndarray`s to concatenate
+        `axis_name`:  the name of the newly created axis
+        `axis_array`: the labels for the newly created axis
+        `axis`:       the location of the new axis
 
-    Returns: fm.ndarray
+    Returns: `friendly_matrix.ndarray`
     '''
     if len(axis_array) != len(friendlies):
         raise ValueError(f'Axis array must be the same length as the number'
@@ -132,7 +132,7 @@ def stack(friendlies, axis_name, axis_array, axis=0):
 
 def vstack_A(friendlies):
     '''
-    Same as vstack(), except returns only the array.
+    Same as `vstack()`, except returns only the array.
     '''
     if len(friendlies[0].shape) == 1:
         # Vstacking 1-dimensional arrays requires creating a new dimension
@@ -144,12 +144,12 @@ def vstack_A(friendlies):
 
 def vstack(friendlies):
     '''
-    Vertically stacks the provided fm.ndarrays.
+    Vertically stacks the provided `friendly_matrix.ndarray`s.
 
     Params:
-        friendlies: the fm.ndarrays to stack
+        `friendlies`: the `friendly_matrix.ndarray`s to stack
 
-    Returns: fm.ndarray
+    Returns: `friendly_matrix.ndarray`
     '''
     if len(friendlies[0].shape) == 1:
         # Vstacking 1-dimensional arrays requires creating a new dimension
@@ -161,7 +161,7 @@ def vstack(friendlies):
 
 def hstack_A(friendlies):
     '''
-    Same as hstack(), except returns only the array.
+    Same as `hstack()`, except returns only the array.
     '''
     if len(friendlies[0].shape) == 1:
         return concatenate_A(friendlies, axis=0)
@@ -171,12 +171,12 @@ def hstack_A(friendlies):
 
 def hstack(friendlies):
     '''
-    Horizontally stacks the provided fm.ndarrays.
+    Horizontally stacks the provided `friendly_matrix.ndarray`s.
 
     Params:
-        friendlies: the fm.ndarrays to stack
+        `friendlies`: the `friendly_matrix.ndarray`s to stack
 
-    Returns: fm.ndarray
+    Returns: `friendly_matrix.ndarray`
     '''
     if len(friendlies[0].shape) == 1:
         return concatenate(friendlies, axis=0)
@@ -190,7 +190,7 @@ Rearranging elements
 
 def flip_A(friendly, axis=None):
     '''
-    Same as flip(), except returns only the array.
+    Same as `flip()`, except returns only the array.
     '''
     if axis is None:
         axes_to_flip = list(range(friendly.ndim))
@@ -206,10 +206,10 @@ def flip(friendly, axis=None):
     Reverses the order of elements along the provided axes.
 
     Params:
-        friendly: the fm.ndarray to flip
-        axis:     the axis along which to flip
+        `friendly`: the `friendly_matrix.ndarray` to flip
+        `axis`:     the axis along which to flip
 
-    Returns: fm.ndarray
+    Returns: `friendly_matrix.ndarray`
     '''
     if axis is None:
         axes_to_flip = list(range(friendly.ndim))
@@ -228,7 +228,7 @@ def flip(friendly, axis=None):
 
 def fliplr_A(friendly):
     '''
-    Same as fliplr(), except returns only the array.
+    Same as `fliplr()`, except returns only the array.
     '''
     return flip_A(friendly, axis=0)
 
@@ -238,16 +238,16 @@ def fliplr(friendly):
     Reverses the order of elements along the first axis.
 
     Params:
-        friendly: the fm.ndarray to flip
+        `friendly`: the `friendly_matrix.ndarray` to flip
 
-    Returns: fm.ndarray
+    Returns: `friendly_matrix.ndarray`
     '''
     return flip(friendly, axis=0)
 
 
 def flipud_A(friendly):
     '''
-    Same as flipud(), except returns only the array.
+    Same as `flipud()`, except returns only the array.
     '''
     return flip_A(friendly, axis=1)
 
@@ -257,9 +257,9 @@ def flipud(friendly):
     Reverses the order of elements along the second axis.
 
     Params:
-        friendly: the fm.ndarray to flip
+        `friendly`: the `friendly_matrix.ndarray` to flip
 
-    Returns: fm.ndarray
+    Returns: `friendly_matrix.ndarray`
     '''
     return flip(friendly, axis=1)
 

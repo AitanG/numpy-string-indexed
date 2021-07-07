@@ -9,13 +9,14 @@ __all__ = ['formatted', 'from_formatted_A', 'from_formatted']
 def formatted(friendly, topological_order=None, formatter=None,
               display_dim_names=True):
     '''
-    Formats the provided fm.ndarray object in an embedded object notation.
+    Formats the provided `friendly_matrix.ndarray` object in an embedded object
+    notation.
 
     Params:
-        friendly:          the fm.ndarray to format
-        topological_order: which dims should be grouped together first
-        formatter:         how each array value should be formatted
-        display_dim_names: whether to display the dimension names
+        `friendly`:          the `friendly_matrix.ndarray` to format
+        `topological_order`: which dims should be grouped together first
+        `formatter`:         how each array value should be formatted
+        `display_dim_names`: whether to display the dimension names
 
     Returns: the formatted results
     '''
@@ -24,7 +25,7 @@ def formatted(friendly, topological_order=None, formatter=None,
 
 def from_formatted_A(formatted_friendly, dtype=np.str):
     '''
-    Same as from_formatted(), except returns only the array.
+    Same as `from_formatted()`, except returns only the array.
     '''
     friendly = from_formatted(formatted_friendly, dtype)
     return friendly.array
@@ -32,13 +33,13 @@ def from_formatted_A(formatted_friendly, dtype=np.str):
 
 def from_formatted(formatted_friendly, dtype=np.str):
     '''
-    Constructs an fm.ndarray object out of its string representation. Assumes a
-    valid string is provided.
+    Constructs a `friendly_matrix.ndarray` object out of its string
+    representation. Assumes a valid string is provided.
 
     Params:
-        formatted_friendly: the string representation
+        `formatted_friendly`: the string representation
 
-    Returns: fm.ndarray object
+    Returns: `friendly_matrix.ndarray` object
     '''
     lines = formatted_friendly.split('\n')
 
@@ -63,7 +64,7 @@ def from_formatted(formatted_friendly, dtype=np.str):
     for line in lines:
         n_indentation_chars = __get_n_indentation_chars(line)
 
-        # Store n_indentation_chars for later
+        # Store `n_indentation_chars` for later
         n_indentation_chars_for_each_line.append(n_indentation_chars)
 
         dim_index = n_indentation_chars // constants.INDENTATION_LEN
@@ -89,11 +90,11 @@ def from_formatted(formatted_friendly, dtype=np.str):
     if not dim_names_are_provided:
         dim_names = list(range(ndims))
 
-    # Fourth, extract values and dim_arrays
+    # Fourth, extract values and `dim_arrays`
     values_1d = []
     dim_arrays = [[] for _ in range(ndims)]
     for i, line in enumerate(lines):
-        # Get n_indentation_chars and dim_index
+        # Get `n_indentation_chars` and `dim_index`
         if i < len(n_indentation_chars_for_each_line):
             n_indentation_chars = n_indentation_chars_for_each_line[i]
         else:
@@ -129,7 +130,7 @@ def __get_n_indentation_chars(line):
     Helper function that counts the number of indentation chars in a line.
 
     Params:
-        line: the input string
+        `line`: the input string
 
     Returns: the number of indentation chars
     '''

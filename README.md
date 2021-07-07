@@ -12,7 +12,7 @@ NumPy String-Indexed is a NumPy extension that allows arrays to be indexed using
 
 NumPy String-Indexed is especially useful for applications like machine learning, scientific computing, and data science, where there is heavy use of multidimensional arrays.
 
-The friendly matrix object is implemented as a lightweight wrapper around a NumPy `ndarray`. It's easy to add to a new or existing project to make it easier to maintain code, and has a negligible memory and performance overhead compared to the size of array (*O(x + y + z)* vs. *O(xyz)*).
+The friendly matrix object is implemented as a lightweight wrapper around a NumPy `ndarray`. It's easy to add to a new or existing project to make it easier to maintain code, and has negligible memory and performance overhead compared to the size of array (*O(x + y + z)* vs. *O(xyz)*).
 
 
 ## Basic functionality
@@ -75,7 +75,7 @@ for image in huge_list:
 
 ## Computing matrices
 
-A friendly matrix is an ideal structure for storing and retrieving the results of computations over multiple variables. The `fm.compute_ndarray()` function executes computations over all values of the input arrays and stores them in a new `fm.ndarray` in a single step:
+A friendly matrix is an ideal structure for storing and retrieving the results of computations over multiple variables. The `compute_ndarray()` function executes computations over all values of the input arrays and stores them in a new Friendly Matrix `ndarray` instance in a single step:
 
 ```python
 '''Collect samples from a variety of normal distributions'''
@@ -105,7 +105,7 @@ print(results({
 
 ## Formatting matrices
 
-The `fm.formatted()` function displays a friendly matrix as a nested list. This is useful for displaying the labels and values of smaller matrices, or slicing results:
+The `formatted()` function displays a friendly matrix as a nested list. This is useful for displaying the labels and values of smaller matrices or slice results:
 
 ```python
 mean_0_results = results({

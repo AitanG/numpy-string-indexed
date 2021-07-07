@@ -9,24 +9,25 @@ __all__ = ['ndarray']
 
 class ndarray(object):
     '''
-    A structure for matrix-like data, which stores the data as a classic Numpy
+    A structure for matrix-like data, which stores the data as a classic NumPy
     ndarray, and provides the option to reference by human-readable values.
 
-    The fm.ndarray class, plus the other functions exposed in the
-    friendly_matrix package, are designed as substitutes for the Numpy ndarray,
-    with comparable performance benchmarks and familiar, Numpy-style usage
+    The `friendly_matrix.ndarray` class, plus the other functions exposed in the
+    friendly_matrix package, are designed as substitutes for the NumPy ndarray,
+    with comparable performance benchmarks and familiar, NumPy-style usage
     patterns.
     '''
     def __init__(self, array, dim_names=None, *args_dim_arrays,
                  **kwargs_dim_arrays):
         '''
-        Performs argument validation and constructs an fm.ndarray instance.
+        Performs argument validation and constructs an `friendly_matrix.ndarray`
+        instance.
         '''
         dim_arrays = ndarray.__validate_dim_arrays(
             array, dim_names, *args_dim_arrays, **kwargs_dim_arrays)
 
         if dim_arrays is None:
-            # This means only arg was np.ndarray, so this is a casting
+            # This means only arg was `numpy.ndarray`, so this is a casting
             self.__init_unlabeled(array)
         else:
             self._quick_init(array, dim_names, dim_arrays)
@@ -41,15 +42,16 @@ class ndarray(object):
 
     def _quick_init(self, array, dim_names, dim_arrays):
         '''
-        Constructs an fm.ndarray instance.
+        Constructs an `friendly_matrix.ndarray` instance.
 
-        This method is separate from __init__() so that fm.ndarray objects can
-        be constructed without first running validation (_new_ndarray()).
+        This method is separate from `friendly_matrix.ndarray.__init__()` so
+        that `friendly_matrix.ndarray` objects can be constructed without first
+        running validation (`friendly_matrix.ndarray._new_ndarray()`).
 
         Params:
-            array:      np.ndarray containing the matrix values
-            dim_names:  well-formed axis names
-            dim_arrays: well-formed labels for each axis
+            `array`:      `numpy.ndarray` containing the matrix values
+            `dim_names`:  well-formed axis names
+            `dim_arrays`: well-formed labels for each axis
         '''
         self.array = array
         self.dim_names = [str(n) for n in dim_names]
@@ -63,7 +65,7 @@ class ndarray(object):
         Gets the length of the specified dim.
 
         Params:
-            dim: label or integer index
+            `dim`: dimension label or index
 
         Returns: length
         '''
@@ -107,7 +109,8 @@ class ndarray(object):
 
     def __take_helper(self, *args, **kwargs):
         '''
-        Facilitates code reuse between take() and take_A().
+        Facilitates code reuse between `friendly_matrix.ndarray.take()` and
+        `friendly_matrix.ndarray.take_A()`.
         '''
         criteria = self.__get_filter_criteria(*args, **kwargs)
 
@@ -145,14 +148,14 @@ class ndarray(object):
 
     def take_A(self, *args, **kwargs):
         '''
-        Same as take(), except returns only the array.
+        Same as `friendly_matrix.ndarray.take()`, except returns only the array.
         '''
         _, result_array, _ = self.__take_helper(*args, **kwargs)
         return result_array
 
     def take(self, *args, **kwargs):
         '''
-        Takes a slice of the array according to the specified indices
+        Takes a slice of the array according to the specified labels
 
         Returns: a new ndarray object containing the filtered array
         '''
@@ -166,6 +169,7 @@ class ndarray(object):
 
         Returns: the single value at the specified location
         '''
+        # TODO: do we need get() when we have take()?
         array_slice = self.__get_array_slice(*args, **kwargs)
 
         # Index into the array to select the result
@@ -177,7 +181,7 @@ class ndarray(object):
         Sets the single value at the specified location
 
         Params:
-            val: the value with which to replace the selected
+            `val`: the value with which to replace the selected
         '''
         array_slice = self.__get_array_slice(*args, **kwargs)
         self.array[array_slice] = val
@@ -196,12 +200,13 @@ class ndarray(object):
     def formatted(self, topological_order=None, formatter=None,
                   display_dim_names=True):
         '''
-        Formats this fm.ndarray object in an embedded object notation
+        Formats this `friendly_matrix.ndarray` object in an embedded object
+        notation
 
         Params:
-            topological_order: which dims should be grouped together first
-            formatter:         how each array value should be formatted
-            display_dim_names: whether to display the dimension names
+            `topological_order`: which dims should be grouped together first
+            `formatter`:         how each array value should be formatted
+            `display_dim_names`: whether to display the dimension names
 
         Returns: the formatted results
         '''
@@ -236,16 +241,17 @@ class ndarray(object):
                           dim_array_indices_in_top_order,
                           *indices):
         '''
-        Helper function for self.formatted() that populates output array
+        Helper function for `friendly_matrix.ndarray.formatted()` that populates
+        output array
 
         Params:
-            topological_order: which dims should be grouped together first
-            formatter:         how each array value should be formatted
-            display_dim_names: whether to display the dimension names
-            output_lines:      the output array holding the result's text
-            dim_array_indices_in_top_order:
+            `topological_order`: which dims should be grouped together first
+            `formatter`:         how each array value should be formatted
+            `display_dim_names`: whether to display the dimension names
+            `output_lines`:      the output array holding the result's text
+            `dim_array_indices_in_top_order`:
                 map from topological_order index to self.dim_array index
-            indices:           human-readable indices for the current val
+            `indices`:           human-readable indices for the current val
         '''
         n_indices = len(indices)
         if n_indices == len(topological_order):
@@ -276,14 +282,15 @@ class ndarray(object):
 
     def __get_array_slice(self, *args, **kwargs):
         '''
-        Gets a tuple to be used to index into the underlying numpy array.
+        Gets a tuple to be used to index into the underlying NumPy array.
         This method essentially translates from human-readable indices
-        to normal indices for use in get() and set().
+        to normal indices for use in `friendly_matrix.ndarray.get()` and
+        `friendly_matrix.ndarray.set()`.
 
         Params:
-            args: the complete set of human-readable indices of the result
+            `args`: the complete set of human-readable indices of the result
 
-        Returns: a tuple representing a numpy array slice
+        Returns: a tuple representing a NumPy array slice
         '''
         if kwargs:
             if not self.__is_kwarg_index_friendly:
@@ -300,7 +307,7 @@ class ndarray(object):
                                  f' {len(args)} != {self.ndim})')
 
         try:
-            # Construct a selector tuple to be applied to the np array
+            # Construct a selector tuple to be applied to the NumPy array
             if kwargs:
                 indices = iter(kwargs[dim_name] for dim_name in self.dim_names)
             elif is_dict:
@@ -319,8 +326,8 @@ class ndarray(object):
 
     def __init_index_map(self):
         '''
-        Initializes self.__index_map, which is used to translate between
-        human-readable indices and array indices
+        Initializes `friendly_matrix.ndarray.__index_map`, which is used to
+        translate between human-readable indices and array indices
         '''
         self.__index_map = {}
         for i, dim_name in enumerate(self.dim_names):
@@ -330,8 +337,8 @@ class ndarray(object):
 
     def __init_index_of_dim_map(self):
         '''
-        Initializes self.__index_of_dim, which precompuates the index of
-        each dim name within self.dim_names.
+        Initializes `friendly_matrix.ndarray.__index_of_dim`, which precompuates
+        the index of each dim name within self.dim_names.
         '''
         self.__index_of_dim = {n: i for (i, n) in enumerate(self.dim_names)}
 
@@ -354,7 +361,7 @@ class ndarray(object):
         Determines the dim index corresponding to the provided dim
 
         Params:
-            dim: a dim name, or a dim index
+            `dim`: a dim name, or a dim index
 
         Returns: the dim index
         '''
@@ -374,7 +381,7 @@ class ndarray(object):
         Determines the dim indices corresponding to the provided dims
 
         Params:
-            dims: dim names or indices
+            `dims`: dim names or indices
 
         Returns: the dim indices
         '''
@@ -386,7 +393,7 @@ class ndarray(object):
         Determines whether the provided value represents multiple indices
 
         Params:
-            arg: the value to test
+            `arg`: the value to test
 
         Returns: whether the provided value represents multiple indices
         '''
@@ -396,7 +403,7 @@ class ndarray(object):
     def __validate_dim_arrays(array, dim_names,
                               *args_dim_arrays,
                               **kwargs_dim_arrays):
-        # First check for casting of np.ndarray
+        # First check for casting of `numpy.ndarray`
         if dim_names is None:
             if not isinstance(array, np.ndarray):
                 raise TypeError(f'Unrecognized first argument')
@@ -485,13 +492,13 @@ class ndarray(object):
     def __element_wise_operation(self, other, operator):
         '''
         Performs an element-wise operation between the arrays of two
-        fm.ndarrays.
+        `friendly_matrix.ndarray`s.
 
         Params:
-            other:    the right operand
-            operator: the operator to be used
+            `other`:    the right operand
+            `operator`: the operator to be used
 
-        Returns: an fm.ndarray as the labeled result.
+        Returns: an `friendly_matrix.ndarray` as the labeled result.
         '''
         if not isinstance(other, ndarray):
             raise TypeError('Element-wise operands must be ndarray type')
@@ -511,7 +518,8 @@ class ndarray(object):
 
     def __call__(self, *args, **kwargs):
         '''
-        Caller can call an fm.ndarray object as shorthand for take() or get()
+        Caller can call an `friendly_matrix.ndarray` object as shorthand for
+        `friendly_matrix.ndarray.take()` or `friendly_matrix.ndarray.get()`
         '''
         if (len(args) == self.ndim
             and not any(ndarray.__is_multiple_indices(arg) for arg in args)):
@@ -687,7 +695,7 @@ class ndarray(object):
 
     '''
     ===========================================================================
-                                Numpy-like methods
+                                NumPy-like methods
     ===========================================================================
     '''
 
@@ -722,20 +730,21 @@ class ndarray(object):
 
     def moveaxis_A(self, dim, new_dim):
         '''
-        Same as moveaxis(), except returns only the array.
+        Same as `moveaxis()`, except returns only the array.
         '''
         dim_index, new_dim_index = self._to_dim_indices(dim, new_dim)
         return np.moveaxis(self.array, dim_index, new_dim_index)
 
     def moveaxis(self, dim, new_dim):
         '''
-        Performs a Numpy-style moveaxis operation on the fm.ndarray.
+        Performs a NumPy-style moveaxis operation on the
+        `friendly_matrix.ndarray`.
 
         Params:
-            dim:     the dim to move
-            new_dim: the dim whose place `dim` will take
+            `dim`:     the dim to move
+            `new_dim`: the dim whose place `dim` will take
 
-        Returns: fm.ndarray
+        Returns: `friendly_matrix.ndarray`
         '''
         dim_index, new_dim_index = self._to_dim_indices(dim, new_dim)
         array = np.moveaxis(self.array, dim_index, new_dim_index)
@@ -749,20 +758,21 @@ class ndarray(object):
 
     def swapaxes_A(self, dim1, dim2):
         '''
-        Same as swapaxes(), except returns only the array.
+        Same as `swapaxes()`, except returns only the array.
         '''
         dim_index1, dim_index2 = self._to_dim_indices(dim1, dim2)
         return self.array.swapaxes(dim_index1, dim_index2)
 
     def swapaxes(self, dim1, dim2):
         '''
-        Performs a Numpy-style swapaxes operation on the fm.ndarray.
+        Performs a NumPy-style swapaxes operation on the
+        `friendly_matrix.ndarray`.
 
         Params:
-            dim1: first dim
-            dim2: other dim
+            `dim1`: dimension
+            `dim2`: dimension
 
-        Returns: fm.ndarray
+        Returns: `friendly_matrix.ndarray`
         '''
         dim_index1, dim_index2 = self._to_dim_indices(dim1, dim2)
         array = self.array.swapaxes(dim_index1, dim_index2)
@@ -780,15 +790,16 @@ class ndarray(object):
 
     def transpose_A(self):
         '''
-        Same as swapaxes(), except returns only the array.
+        Same as `swapaxes()`, except returns only the array.
         '''
         return self.moveaxis_A(1, 0)
 
     def transpose(self):
         '''
-        Performs a Numpy-style transpose operation on the fm.ndarray.
+        Performs a NumPy-style transpose operation on the
+        `friendly_matrix.ndarray`.
 
-        Returns: fm.ndarray
+        Returns: `friendly_matrix.ndarray`
         '''
         return self.moveaxis(1, 0)
 
@@ -807,7 +818,7 @@ class ndarray(object):
 
     def ___aggregation_result_A(self, axis, aggregate_fn):
         '''
-        Same as __aggregation_result(), except returns only the array.
+        Same as `__aggregation_result()`, except returns only the array.
         '''
         if axis is None:
             return aggregate_fn(self.array, axis=axis)
@@ -816,13 +827,13 @@ class ndarray(object):
 
     def __aggregation_result(self, axis, aggregate_fn):
         '''
-        Applies an aggregation function to the fm.ndarray.
+        Applies an aggregation function to the `friendly_matrix.ndarray`.
 
         Params:
-            axis:         the dim over which to aggregate
-            aggregate_fn: the Numpy aggregation function
+            `axis`:         the dim over which to aggregate
+            `aggregate_fn`: the NumPy aggregation function
 
-        Returns: fm.ndarray
+        Returns: `friendly_matrix.ndarray`
         '''
         if axis is None:
             return aggregate_fn(self.array, axis=axis)
@@ -838,7 +849,7 @@ class ndarray(object):
 
     def mean_A(self, axis=None):
         '''
-        Same as mean(), except returns only the array.
+        Same as `mean()`, except returns only the array.
         '''
         return self.___aggregation_result_A(axis, np.mean)
 
@@ -847,15 +858,15 @@ class ndarray(object):
         Compuates the average along an axis.
 
         Params:
-            axis: dim or dim index over which to aggregate
+            `axis`: dim or dim index over which to aggregate
 
-        Returns: fm.ndarray
+        Returns: `friendly_matrix.ndarray`
         '''
         return self.__aggregation_result(axis, np.mean)
 
     def std_A(self, axis=None):
         '''
-        Same as std_A(), except returns only the array.
+        Same as `std_A()`, except returns only the array.
         '''
         return self.___aggregation_result_A(axis, np.std)
 
@@ -864,9 +875,9 @@ class ndarray(object):
         Compuates the standard deviation along an axis.
 
         Params:
-            axis: dim or dim index over which to aggregate
+            `axis`: dim or dim index over which to aggregate
 
-        Returns: fm.ndarray
+        Returns: `friendly_matrix.ndarray`
         '''
         return self.__aggregation_result(axis, np.std)
 
@@ -881,15 +892,15 @@ class ndarray(object):
         Compuates the variance along an axis.
 
         Params:
-            axis: dim or dim index over which to aggregate
+            `axis`: dim or dim index over which to aggregate
 
-        Returns: fm.ndarray
+        Returns: `friendly_matrix.ndarray`
         '''
         return self.__aggregation_result(axis, np.var)
 
     def sum_A(self, axis=None):
         '''
-        Same as sum(), except returns only the array.
+        Same as `sum()`, except returns only the array.
         '''
         return self.___aggregation_result_A(axis, np.sum)
 
@@ -898,15 +909,15 @@ class ndarray(object):
         Computes the average along an axis.
 
         Params:
-            axis: dim or dim index over which to aggregate
+            `axis`: dim or dim index over which to aggregate
 
-        Returns: fm.ndarray
+        Returns: `friendly_matrix.ndarray`
         '''
         return self.__aggregation_result(axis, np.sum)
 
     def prod_A(self, axis=None):
         '''
-        Same as prod(), except returns only the array.
+        Same as `friendly_matrix.ndarray.prod()`, except returns only the array.
         '''
         return self.___aggregation_result_A(axis, np.prod)
 
@@ -915,16 +926,17 @@ class ndarray(object):
         Computes the product along an axis.
 
         Params:
-            axis: dim or dim index over which to aggregate
+            `axis`: dim or dim index over which to aggregate
 
-        Returns: fm.ndarray
+        Returns: `friendly_matrix.ndarray`
         '''
         return self.__aggregation_result(axis, np.prod)
 
     def min_A(self, axis=None):
         '''
-        Same as min(), except returns only the array.
+        Same as `friendly_matrix.ndarray.min()`, except returns only the array.
         '''
+        # TODO: add max
         return self.___aggregation_result_A(axis, np.min)
 
     def min(self, axis=None):
@@ -932,15 +944,16 @@ class ndarray(object):
         Computes the minimum along an axis.
 
         Params:
-            axis: dim or dim index over which to aggregate
+            `axis`: dim or dim index over which to aggregate
 
-        Returns: fm.ndarray
+        Returns: `friendly_matrix.ndarray`
         '''
         return self.__aggregation_result(axis, np.min)
 
     def argmin_A(self, axis=None):
         '''
-        Same as argmin(), except returns only the array.
+        Same as `friendly_matrix.ndarray.argmin()`, except returns only the
+        array.
         '''
         return self.___aggregation_result_A(axis, np.argmin)
 
@@ -949,9 +962,9 @@ class ndarray(object):
         Computes the index of the minimum along an axis.
 
         Params:
-            axis: dim or dim index over which to aggregate
+            `axis`: dim or dim index over which to aggregate
 
-        Returns: fm.ndarray
+        Returns: `friendly_matrix.ndarray`
         '''
         return self.__aggregation_result(axis, np.argmin)
 
@@ -966,9 +979,9 @@ class ndarray(object):
         Computes whether all of the values along an axis are truthy.
 
         Params:
-            axis: dim or dim index over which to aggregate
+            `axis`: dim or dim index over which to aggregate
 
-        Returns: fm.ndarray
+        Returns: `friendly_matrix.ndarray`
         '''
         return self.__aggregation_result(axis, np.all)
 
@@ -983,9 +996,9 @@ class ndarray(object):
         Computes whether any of the values along an axis are truthy.
 
         Params:
-            axis: dim or dim index over which to aggregate
+            `axis`: dim or dim index over which to aggregate
 
-        Returns: fm.ndarray
+        Returns: `friendly_matrix.ndarray`
         '''
         return self.__aggregation_result(axis, np.any)
 
@@ -999,12 +1012,12 @@ class ndarray(object):
     def cumsum(self, axis=0):
         '''
         Computes the cumulative sum along an axis. Does not change the
-        fm.ndarray's dimensionality.
+        `friendly_matrix.ndarray`'s dimensionality.
 
         Params:
-            axis: dim or dim index over which to aggregate
+            `axis`: dim or dim index over which to aggregate
 
-        Returns: fm.ndarray
+        Returns: `friendly_matrix.ndarray`
         '''
         dim_index = self._to_dim_index(axis)
         array = self.array.cumsum(axis=dim_index)
@@ -1020,12 +1033,12 @@ class ndarray(object):
     def cumprod(self, axis=0):
         '''
         Computes the cumulative product along an axis. Does not change the
-        fm.ndarray's dimensionality.
+        `friendly_matrix.ndarray`'s dimensionality.
 
         Params:
-            axis: dim or dim index over which to aggregate
+            `axis`: dim or dim index over which to aggregate
 
-        Returns: fm.ndarray
+        Returns: `friendly_matrix.ndarray`
         '''
         dim_index = self._to_dim_index(axis)
         array = self.array.cumprod(axis=dim_index)
@@ -1033,7 +1046,8 @@ class ndarray(object):
 
     def __squeeze_helper(self):
         '''
-        Facilitates code reuse between squeeze() and squeeze_A().
+        Facilitates code reuse between `friendly_matrix.ndarray.squeeze()` and
+        `friendly_matrix.ndarray.squeeze_A()`.
         '''
         dim_names = copy.copy(self.dim_names)
         dim_arrays = copy.copy(self.dim_arrays)
@@ -1050,7 +1064,8 @@ class ndarray(object):
 
     def squeeze_A(self):
         '''
-        Same as squeeze(), except returns only the array.
+        Same as `friendly_matrix.ndarray.squeeze()`, except returns only the
+        sarray.
         '''
         array, _, _ = self.__squeeze_helper()
         return array
@@ -1065,26 +1080,27 @@ class ndarray(object):
     @property
     def A(self):
         '''
-        Shorthand for extracting just the np.ndarray from an fm.ndarray.
+        Shorthand for extracting just the np.ndarray from an `friendly_matrix.ndarray`.
 
         Example:
-            cov = compute_covariance(old.A, new.A)
+            `cov = compute_covariance(old.A, new.A)`
         '''
         return self.array
 
 
 class Empty:
     '''
-    Empty class used to allow the creation of an fm.ndarray instance without
-    calling __init__().
+    Empty class used to allow the creation of an `friendly_matrix.ndarray`
+    instance without calling `friendly_matrix.ndarray.__init__()`.
     '''
     pass
 
 
 def _new_ndarray(*args):
     '''
-    Substitute initializer for fm.ndarray that avoids performing validation on
-    fm.ndarray objects created internally, by avoiding calling __init__().
+    Substitute initializer for `friendly_matrix.ndarray` that avoids performing
+    validation on `friendly_matrix.ndarray` objects created internally, by
+    avoiding calling `friendly_matrix.ndarray.__init__()`.
     '''
     result = Empty()
     result.__class__ = ndarray
