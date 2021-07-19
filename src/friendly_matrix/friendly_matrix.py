@@ -129,6 +129,7 @@ class ndarray(object):
                                                   for j in slice_indices])
                     else:
                         # Remove the dimension if selecting by a single value
+                        # TODO: what happens when all args are single values?
                         result_dim_names[i] = None
                         slice_indices = self.__index_map[dim_name][
                             criteria[dim_name]]
@@ -169,7 +170,6 @@ class ndarray(object):
 
         Returns: the single value at the specified location
         '''
-        # TODO: do we need get() when we have take()?
         array_slice = self.__get_array_slice(*args, **kwargs)
 
         # Index into the array to select the result

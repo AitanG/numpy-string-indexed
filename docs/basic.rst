@@ -13,35 +13,37 @@ Array initialization and slicing
 
 	This class, plus the other functions exposed in the friendly_matrix package, are designed as substitutes for the NumPy ``ndarray``, with comparable performance benchmarks and familiar, NumPy-style usage patterns.
 
-	Labels do not need to be specified for every dimension and index. There are four ways to initialize a ``friendly_matrix.ndarray`` instance:
+	Labels do not need to be specified for every dimension and index. There are four ways to initialize a ``friendly_matrix.ndarray`` instance using the constructor, all of which involve assigning new labels to an existing NumPy ``ndarray``. The other main way to create a new ``friendly_matrix.ndarray`` is by calling :py:func:`friendly_matrix.compute_ndarray()`. The four ways are demonstrated below. In the examples, we assume the array ``array`` consists of two dimensions, for *size* and *n_passengers*. Dimension *size* has length 3, for *small*, *medium*, and *large*, and dimension *n_passengers* goes from 0 to 4.
 
-	Casting::
+	**1. Casting**::
 
-		friendly_matrix.ndarray(array)
+		rockets = friendly_matrix.ndarray(array)
 
-	Dimension arrays as arguments::
+	Note: This creates an unlabeled ``friendly_matrix.ndarray`` instance.
 
-		friendly_matrix.ndarray(
+	**2. Dimension arrays as arguments**::
+
+		rockets = friendly_matrix.ndarray(
 			array,
-			['a', 'b'],
-			['x', 'y', 'z'])
+			['size', 'n_passengers'],
+			['small', 'medium', 'large'])
 
-	Dimension arrays as dict::
+	**3. Dimension arrays as dict**::
 
 		dim_arrays = {
-			'a': ['x', 'y', 'z']
+			'size': ['small', 'medium', 'large']
 		}
-		friendly_matrix.ndarray(
+		rockets = friendly_matrix.ndarray(
 			array,
-			['a', 'b'],
+			['size', 'n_passengers'],
 			dim_arrays)
 
-	Dimension arrays as keyword arguments::
+	**4. Dimension arrays as keyword arguments**::
 
-		friendly_matrix.ndarray(
+		rockets = friendly_matrix.ndarray(
 			array,
-			['a', 'b'],
-			a=['x', 'y', 'z'])
+			['size', 'n_passengers'],
+			size=['small', 'medium', 'large'])
 
 	:param array: NumPy array to wrap
 	:param dim_names: label for each dimension
@@ -91,13 +93,28 @@ Array initialization and slicing
 		:param \*args: index labels to select for each dimension, or single dict mapping each dimension label to its corresponding index labels
 		:param \*\*kwargs: index labels for each dimension (only if specified dimensions are argument- and keyword-friendly)
 
-		If no labels are specified for a dimension, the entire dimension is selected. If a single label is specified for a dimension, that dimension is dropped in the result.
+		If no labels are specified for a dimension, the entire dimension is selected. If a single label not wrapped in a list is specified for a dimension, that dimension is dropped in the result.
 
-		A take operation can also be performed by calling a ``friendly_matrix.ndarray`` instance directly.
+		A take operation can also be performed by calling a ``friendly_matrix.ndarray`` instance directly. It's recommended to use this shorthand for style.
 
-		Example usage:
+		The three ways of using ``take()`` are demonstrated below. In the examples, we assume the array ``rockets`` consists of two dimensions, *size* and *n_passengers*. Dimension *size* has indices named *small*, *medium*, and *large*, and dimension *n_passengers* goes from 0 to 4.
 
-		TODO
+		**1. Dimension arrays as arguments**::
+
+			rockets('large', [2, 3])
+
+		**2. Dimension arrays as dict**::
+
+			rockets({
+				'size': 'large',
+				'n_passengers': [2, 3]
+			})
+
+		**3. Dimension arrays as keyword arguments**::
+
+			rockets(size='large', n_passengers=[2, 3])
+
+		**Note:** In the above examples, the shape of the result is ``(2,)``, because passing in the single value ``'large'`` for the first dimension causes the dimension to be dropped from the result. Passing in ``['large']`` instead would result in a shape of ``(1, 2)``.
 
 		:return: A new ``friendly_matrix.ndarray`` instance containing the filtered array
 

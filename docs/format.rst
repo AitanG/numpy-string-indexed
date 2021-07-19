@@ -23,8 +23,8 @@ Formatting arrays for output
 		Example usage::
 
 			prices.formatted(topological_order=["Year", "Size"],
-							 formatter=price_formatter,
-							 display_dim_names=True)
+				formatter=price_formatter,
+				display_dim_names=True)
 
 			'''
 			Example output:

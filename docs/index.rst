@@ -3,7 +3,7 @@
 
 NumPy String-Indexed
 ====================
-NumPy String-Indexed is a `NumPy <https://numpy.org/>`_ extension that allows arrays to be indexed using descriptive string labels, rather than conventional zero-indexing. When an `ndarray` (AKA a friendly matrix) instance is initialized, labels are assigned to each array index and each dimension, and they stick to the array after NumPy-style operations such as transposing, concatenating, and aggregating. This prevents Python programmers from having to keep track mentally of what each axis and each index represents, instead making each reference to the array in code naturally self-documenting.
+NumPy String-Indexed is a `NumPy <https://numpy.org/>`_ extension that allows arrays to be indexed using descriptive string labels, rather than conventional zero-indexing. When an ``ndarray`` (AKA a friendly matrix) instance is initialized, labels are assigned to each array index and each dimension, and they stick to the array after NumPy-style operations such as transposing, concatenating, and aggregating. This prevents Python programmers from having to keep track mentally of what each axis and each index represents, instead making each reference to the array in code naturally self-documenting.
 
 NumPy String-Indexed is especially useful for applications like machine learning, scientific computing, and data science, where there is heavy use of multidimensional arrays.
 
@@ -13,7 +13,7 @@ The friendly matrix object is implemented as a lightweight wrapper around a NumP
 Basic functionality
 -------------------
 
-It's recommended to import NumPy String-Indexed idiomatically as `fm`::
+It's recommended to import NumPy String-Indexed idiomatically as ``fm``::
 
 	import friendly_matrix as fm
 

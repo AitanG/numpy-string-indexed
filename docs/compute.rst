@@ -16,13 +16,13 @@ Computing arrays
 
 	The `args` arguments should contain iterables or callables, which constitute a complete set of instructions for computing the result. The first argument must be an iterable, and the last argument must be a callable. A group of one or more consecutive iterable arguments are iterated over via their Cartesian product. The next argument, which is a callable, takes the values from the current iteration as arguments to run some user-defined code, which can optionally yield precomputations for use in subsequent callables further up the stack.
 
-	For intermediate callables should assemble precomputations in a dictionary, which is returned, to make them available to subsequent callables. For subsequent callables to access these precomputations, these callables should accept them as keyword arguments.
+	Any intermediate callables should assemble precomputations in a dictionary, which is returned, in order to make them available to subsequent callables. For subsequent callables to access these precomputations, these callables should accept them as keyword arguments.
 
 	The final callable should return a value, which gets stored at a location in the ``friendly_matrix.ndarray`` specified by the values from the current iteration.
 
 	The ``dim_names`` argument should match the order of ``args``.
 
-	The dim index labels in the result are set as the values of each iterable provided in ``*args``.
+	The dim index labels in the result are set as the values of each iterable provided in ``args``.
 
 	Below is a bare-bones example of how ``compute_ndarray()`` can be used::
 

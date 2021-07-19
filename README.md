@@ -139,6 +139,20 @@ Example output:
 '''
 ```
 
+## Installation
+
+	pip install numpy-string-indexed
+
+NumPy String-Indexed is listed in [PyPI](https://pypi.org/project/numpy-string-indexed/) and can be installed with `pip`.
+
+**Prerequisites**: NumPy String-Indexed 0.0.1 requires Python 3 and a compatible installation of the [NumPy](https://pypi.org/project/numpy/>) Python package.
+
+
 ## Documentation
 
-Full documentation coming soon!
+Full documentation can be found [here](https://numpy-string-indexed.readthedocs.io/en).
+
+
+## Discussion and support
+
+NumPy String-Indexed is available under the [MIT License](https://opensource.org/licenses/MIT>).

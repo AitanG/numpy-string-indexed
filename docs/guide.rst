@@ -36,7 +36,7 @@ If it becomes important to optimize within a particular scope, it's recommended 
 Computing arrays
 ----------------
 
-A friendly matrix is an ideal structure for storing and retrieving the results of computations over multiple variables. The ``compute_ndarray()`` function executes computations over all values of the input arrays and stores them in a new Friendly Matrix ``ndarray`` instance in a single step::
+A friendly matrix is an ideal structure for storing and retrieving the results of computations over multiple variables. The ``compute_ndarray()`` function executes computations over all values of the input arrays and stores them in a new friendly matrix ``ndarray`` instance in a single step::
 
 
 	'''Collect samples from a variety of normal distributions'''
