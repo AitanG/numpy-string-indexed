@@ -936,7 +936,6 @@ class ndarray(object):
         '''
         Same as `friendly_matrix.ndarray.min()`, except returns only the array.
         '''
-        # TODO: add max
         return self.___aggregation_result_A(axis, np.min)
 
     def min(self, axis=None):
@@ -967,6 +966,41 @@ class ndarray(object):
         Returns: `friendly_matrix.ndarray`
         '''
         return self.__aggregation_result(axis, np.argmin)
+
+    def max_A(self, axis=None):
+        '''
+        Same as `friendly_matrix.ndarray.max()`, except returns only the array.
+        '''
+        return self.___aggregation_result_A(axis, np.max)
+
+    def max(self, axis=None):
+        '''
+        Computes the maximum along an axis.
+
+        Params:
+            `axis`: dim or dim index over which to aggregate
+
+        Returns: `friendly_matrix.ndarray`
+        '''
+        return self.__aggregation_result(axis, np.max)
+
+    def argmax_A(self, axis=None):
+        '''
+        Same as `friendly_matrix.ndarray.argmax()`, except returns only the
+        array.
+        '''
+        return self.___aggregation_result_A(axis, np.argmax)
+
+    def argmax(self, axis=None):
+        '''
+        Computes the index of the maximum along an axis.
+
+        Params:
+            `axis`: dim or dim index over which to aggregate
+
+        Returns: `friendly_matrix.ndarray`
+        '''
+        return self.__aggregation_result(axis, np.argmax)
 
     def all_A(self, axis=None):
         '''

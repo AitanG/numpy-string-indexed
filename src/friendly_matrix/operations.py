@@ -324,6 +324,22 @@ def argmin(friendly, axis=0):
     return friendly.argmin(axis)
 
 
+def max_A(friendly, axis=0):
+    return friendly.max_A(axis)
+
+
+def max(friendly, axis=0):
+    return friendly.max(axis)
+
+
+def argmax_A(friendly, axis=0):
+    return friendly.argmax_A(axis)
+
+
+def argmax(friendly, axis=0):
+    return friendly.argmax(axis)
+
+
 def all_A(friendly, axis=0):
     return friendly.all_A(axis)
 
