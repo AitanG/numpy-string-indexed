@@ -107,19 +107,18 @@ class ndarray(object):
 
         return criteria
 
-    def __take_helper(self, *args, **kwargs):
+    def __take_helper(self, criteria):
         '''
         Facilitates code reuse between `friendly_matrix.ndarray.take()` and
         `friendly_matrix.ndarray.take_A()`.
         '''
-        criteria = self.__get_filter_criteria(*args, **kwargs)
-
         try:
             # Iteratively pare down the array
             result_array = self.array
             result_dim_names = copy.copy(self.dim_names)
             result_dim_arrays = []
             array_slice = []
+            n_squeezed_dims = 0
             for i, dim_name in enumerate(self.dim_names):
                 if dim_name in criteria:
                     if ndarray.__is_multiple_indices(criteria[dim_name]):
@@ -129,16 +128,17 @@ class ndarray(object):
                                                   for j in slice_indices])
                     else:
                         # Remove the dimension if selecting by a single value
-                        # TODO: what happens when all args are single values?
                         result_dim_names[i] = None
                         slice_indices = self.__index_map[dim_name][
                             criteria[dim_name]]
+                        n_squeezed_dims += 1
                 else:
                     # No filtering on this dimension
                     slice_indices = slice(None)
                     result_dim_arrays.append(self.dim_arrays[i])
 
-                array_slice = (slice(None),) * i + (slice_indices,)
+                array_slice = ((slice(None),) * (i - n_squeezed_dims)
+                               + (slice_indices,))
                 result_array = result_array[array_slice]
 
         except ValueError as ve:
@@ -151,18 +151,28 @@ class ndarray(object):
         '''
         Same as `friendly_matrix.ndarray.take()`, except returns only the array.
         '''
-        _, result_array, _ = self.__take_helper(*args, **kwargs)
-        return result_array
-
+        try:
+            # Do a `get()` if all indices are single values
+            return self.get(*args, **kwargs)
+        except ValueError:
+            criteria = self.__get_filter_criteria(*args, **kwargs)
+            _, result_array, _ = self.__take_helper(criteria)
+            return result_array
+    
     def take(self, *args, **kwargs):
         '''
         Takes a slice of the array according to the specified labels
 
         Returns: a new ndarray object containing the filtered array
         '''
-        dim_names, result_array, result_dim_arrays = self.__take_helper(
-            *args, **kwargs)
-        return _new_ndarray(result_array, dim_names, result_dim_arrays)
+        try:
+            # Do a `get()` if all indices are single values
+            return self.get(*args, **kwargs)
+        except ValueError:
+            criteria = self.__get_filter_criteria(*args, **kwargs)
+            dim_names, result_array, result_dim_arrays = self.__take_helper(
+                criteria)
+            return _new_ndarray(result_array, dim_names, result_dim_arrays)
 
     def get(self, *args, **kwargs):
         '''
@@ -170,7 +180,8 @@ class ndarray(object):
 
         Returns: the single value at the specified location
         '''
-        array_slice = self.__get_array_slice(*args, **kwargs)
+        criteria = self.__get_filter_criteria(*args, **kwargs)
+        array_slice = self.__get_array_slice(criteria)
 
         # Index into the array to select the result
         result = self.array[array_slice]
@@ -183,7 +194,8 @@ class ndarray(object):
         Params:
             `val`: the value with which to replace the selected
         '''
-        array_slice = self.__get_array_slice(*args, **kwargs)
+        criteria = self.__get_filter_criteria(*args, **kwargs)
+        array_slice = self.__get_array_slice(criteria)
         self.array[array_slice] = val
 
     def copy(self):
@@ -280,7 +292,7 @@ class ndarray(object):
                                        dim_array_indices_in_top_order,
                                        *next_indices)
 
-    def __get_array_slice(self, *args, **kwargs):
+    def __get_array_slice(self, criteria):
         '''
         Gets a tuple to be used to index into the underlying NumPy array.
         This method essentially translates from human-readable indices
@@ -288,35 +300,21 @@ class ndarray(object):
         `friendly_matrix.ndarray.set()`.
 
         Params:
-            `args`: the complete set of human-readable indices of the result
+            `criteria`: a standardized dictionary of criteria to filter by
 
         Returns: a tuple representing a NumPy array slice
         '''
-        if kwargs:
-            if not self.__is_kwarg_index_friendly:
-                raise ValueError('ndarray instance is not kwargs-friendly')
-            if args:
-                raise ValueError('Args not accepted when using kwargs indices')
-        else:
-            is_dict = any(isinstance(arg, dict) for arg in args)
-            if is_dict and len(args) > 1:
-                raise ValueError('Extraneous arguments after filter dict')
-            if ((is_dict and len(args[0]) != self.ndim)
-                or len(args) != self.ndim):
-                raise ValueError('Wrong number of dimensions provided'
-                                 f' {len(args)} != {self.ndim})')
+        if len(criteria) < self.ndim:
+            raise ValueError(f'Missing indices ({len(criteria)} < {self.ndim})')
+        for dim_name, values in criteria.items():
+            if ndarray.__is_multiple_indices(values):
+                raise ValueError(f'Got multiple values for dim "{dim_name}"')
 
         try:
             # Construct a selector tuple to be applied to the NumPy array
-            if kwargs:
-                indices = iter(kwargs[dim_name] for dim_name in self.dim_names)
-            elif is_dict:
-                indices = iter(args[0][dim_name] for dim_name in self.dim_names)
-            else:
-                indices = args
             array_slice_arr = []
-            for dim_name, index in zip(self.dim_names, indices):
-                select_index = self.__index_map[dim_name][index]
+            for dim_name in self.dim_names:
+                select_index = self.__index_map[dim_name][criteria[dim_name]]
                 array_slice_arr.append(select_index)
 
         except ValueError as ve:
@@ -519,15 +517,8 @@ class ndarray(object):
     def __call__(self, *args, **kwargs):
         '''
         Caller can call an `friendly_matrix.ndarray` object as shorthand for
-        `friendly_matrix.ndarray.take()` or `friendly_matrix.ndarray.get()`
+        `friendly_matrix.ndarray.take()`.
         '''
-        if (len(args) == self.ndim
-            and not any(ndarray.__is_multiple_indices(arg) for arg in args)):
-            # All the provided filter values represent a single index
-            return self.get(*args, **kwargs)
-
-        # At least one of the provided filter values represents multiple
-        # indices. This must be a take call
         return self.take(*args, **kwargs)
 
     def __str__(self):

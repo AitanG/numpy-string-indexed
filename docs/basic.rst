@@ -93,7 +93,7 @@ Array initialization and slicing
 		:param \*args: index labels to select for each dimension, or single dict mapping each dimension label to its corresponding index labels
 		:param \*\*kwargs: index labels for each dimension (only if specified dimensions are argument- and keyword-friendly)
 
-		If no labels are specified for a dimension, the entire dimension is selected. If a single label not wrapped in a list is specified for a dimension, that dimension is dropped in the result.
+		If no labels are specified for a dimension, the entire dimension is selected. If a single label not wrapped in a list is specified for a dimension, that dimension is dropped in the result. If all labels specified are single labels, the result is equivalent to calling ``get()``.
 
 		A take operation can also be performed by calling a ``friendly_matrix.ndarray`` instance directly. It's recommended to use this shorthand for style.
 
@@ -102,6 +102,8 @@ Array initialization and slicing
 		**1. Dimension arrays as arguments**::
 
 			rockets('large', [2, 3])
+
+		The value ``None`` can be passed in as a shorthand for selecting all indices in a dimension.
 
 		**2. Dimension arrays as dict**::
 
