@@ -51,6 +51,12 @@ br_channel_left_half = image(
 ```
 
 
+## Documentation
+
+Full documentation can be found [here](https://numpy-string-indexed.readthedocs.io/en/latest/?). Below is a brief overview of Friendly Matrix functionality.
+
+
+
 ## Matrix operations
 
 Friendly matrix objects can be operated on just like NumPy `ndarray`s with minimal overhead. The package contains separate implementations of most of the relevant NumPy `ndarray` operations, taking advantage of labels. For example:
@@ -146,11 +152,6 @@ Example output:
 NumPy String-Indexed is listed in [PyPI](https://pypi.org/project/numpy-string-indexed/) and can be installed with `pip`.
 
 **Prerequisites**: NumPy String-Indexed 0.0.1 requires Python 3 and a compatible installation of the [NumPy](https://pypi.org/project/numpy/>) Python package.
-
-
-## Documentation
-
-Full documentation can be found [here](https://numpy-string-indexed.readthedocs.io/en).
 
 
 ## Discussion and support
