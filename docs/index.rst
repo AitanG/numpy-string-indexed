@@ -34,7 +34,7 @@ The array can then be sliced like this::
 	# an integer
 	g_top_left_pixel_value = image('G', 0, 0)
 
-	# friendly matrix with shape (100, 50)
+	# friendly matrix with shape (2, 100, 50)
 	br_channel_left_half = image(
 		color_channel=('B', 'R'),
 		left_to_right=range(image.dim_length('left_to_right') // 2))
