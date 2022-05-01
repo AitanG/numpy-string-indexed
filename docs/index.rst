@@ -49,7 +49,7 @@ Installation
 
 NumPy String-Indexed is listed in `PyPI <https://pypi.org/project/numpy-string-indexed/>`_ and can be installed with ``pip``.
 
-**Prerequisites**: NumPy String-Indexed 0.0.1 requires Python 3 and a compatible installation of the `NumPy <https://pypi.org/project/numpy/>`_ Python package.
+**Prerequisites**: NumPy String-Indexed 0.0.3 requires Python 3 and a compatible installation of the `NumPy <https://pypi.org/project/numpy/>`_ Python package.
 
 
 Documentation

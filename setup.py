@@ -5,7 +5,7 @@ with open('README.md', 'r', encoding='utf-8') as fh:
 
 setuptools.setup(
     name='numpy-string-indexed',
-    version='0.0.2',
+    version='0.0.3',
     author='Aitan Grossman',
     author_email='aitan.gros@gmail.com',
     description='A NumPy extension that allows arrays to be indexed using labels',
